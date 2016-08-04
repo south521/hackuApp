@@ -25,9 +25,6 @@ public class Recording extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
 
         } else {
-            Toast toast = Toast.makeText(this, "許可されないとアプリが実行できません", Toast.LENGTH_SHORT);
-            toast.show();
-
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO,}, 1);
         }
 

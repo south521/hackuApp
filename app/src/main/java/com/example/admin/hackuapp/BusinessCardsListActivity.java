@@ -157,39 +157,38 @@ public class BusinessCardsListActivity extends AppCompatActivity {
                 content_c.moveToFirst();
 
 
-//                DBLine[] dbLines = dba.getAll();
-//                if(dbLines != null) {
-//                    for(DBLine row : dba.getAll()) {
-//                        pbContent.addItem(new PhoneBookContent.PhoneBookItem(
-//                                row.BOOK_ID,
-//                                getDisplayName(row.BOOK_ID),
-//                                getPhoneNumber(row.BOOK_ID),
-//                                getEmailAddress(row.BOOK_ID),
-//                                "COMP",
-//                                "DEP",
-//                                "POS"
-////                                getOrganization
+                DBLine[] dbLines = dba.getAll();
+                if(dbLines != null) {
+                    for(DBLine row : dba.getAll()) {
+                        pbContent.addItem(new PhoneBookContent.PhoneBookItem(
+                                row.BOOK_ID,
+                                getDisplayName(row.BOOK_ID),
+                                getPhoneNumber(row.BOOK_ID),
+                                getEmailAddress(row.BOOK_ID),
+                                getCompany(row.BOOK_ID),
+                                getDepart(row.BOOK_ID),
+                                getPosit(row.BOOK_ID)
+
+                        ));
+                    }
+                }
+
+
+//                do {
 //
-//                        ));
-//                    }
-//                }
-
-                
-                do {
-
-                    pbContent.addItem(new PhoneBookContent.PhoneBookItem(
-                            content_c.getString(0),
-                            getDisplayName(content_c.getString(0)),
-                            getPhoneNumber(content_c.getString(0)),
-                            getEmailAddress(content_c.getString(0)),
-//                            c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY)) + " " +
-//                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DEPARTMENT)) + " " +
-//                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY))
-                            getCompany(content_c.getString(0)),
-                            getDepart(content_c.getString(0)),
-                            getPosit(content_c.getString(0))
-                    ));
-                } while (content_c.moveToNext());
+//                    pbContent.addItem(new PhoneBookContent.PhoneBookItem(
+//                            content_c.getString(0),
+//                            getDisplayName(content_c.getString(0)),
+//                            getPhoneNumber(content_c.getString(0)),
+//                            getEmailAddress(content_c.getString(0)),
+////                            c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY)) + " " +
+////                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DEPARTMENT)) + " " +
+////                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY))
+//                            getCompany(content_c.getString(0)),
+//                            getDepart(content_c.getString(0)),
+//                            getPosit(content_c.getString(0))
+//                    ));
+//                } while (content_c.moveToNext());
             } catch (Exception e){
                 e.printStackTrace();
             } finally{
