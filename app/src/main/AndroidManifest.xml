@@ -40,8 +40,13 @@
         </activity>
         <activity android:name=".Registation" />
         <activity android:name=".Recording" />
-        <activity android:name=".EditCard"></activity>
-        <activity android:name=".Api"></activity>
+        <activity android:name=".EditCard">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
