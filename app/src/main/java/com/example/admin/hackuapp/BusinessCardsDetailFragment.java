@@ -1,8 +1,10 @@
 package com.example.admin.hackuapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +54,24 @@ public class BusinessCardsDetailFragment extends Fragment {
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.name);
             }
+
+            FloatingActionButton fab = (FloatingActionButton) activity.findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.setClassName("com.example.admin.hackuapp", "com.example.admin.hackuapp.EditCard");
+                    intent.putExtra("oldName",mItem.name);
+                    intent.putExtra("oldPhone",mItem.phoneNumber);
+                    intent.putExtra("oldEmail",mItem.email);
+                    intent.putExtra("oldComp",mItem.company);
+                    intent.putExtra("oldDep",mItem.depart);
+                    intent.putExtra("oldPos",mItem.posit);
+
+                    startActivity(intent);
+
+                }
+            });
         }
     }
 

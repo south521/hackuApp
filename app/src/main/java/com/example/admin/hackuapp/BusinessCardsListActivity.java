@@ -159,7 +159,7 @@ public class BusinessCardsListActivity extends AppCompatActivity {
                 Uri lookupUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, content_c.getString(1));
 
 
-
+/*
                 DBLine[] dbLines = dba.getAll();
                 if(dbLines != null) {
                     for(DBLine row : dba.getAll()) {
@@ -176,21 +176,18 @@ public class BusinessCardsListActivity extends AppCompatActivity {
                         ));
                     }
                 }
+*/
+                do {
 
-//                do {
-//
-//                    pbContent.addItem(new PhoneBookContent.PhoneBookItem(
-//                            content_c.getString(0),
-//                            getDisplayName(content_c.getString(0)),
-//                            getPhoneNumber(content_c.getString(0)),
-//                            getEmailAddress(content_c.getString(0)),
-////                            c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY)) + " " +
-////                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DEPARTMENT)) + " " +
-////                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY))
-//                            ""
-//                    ));
-////                    Log.d("DB: ", getOrganization(content_c.getString(0)));
-//                } while (content_c.moveToNext());
+                    pbContent.addItem(new PhoneBookContent.PhoneBookItem(
+                            content_c.getString(0),
+                            getDisplayName(content_c.getString(0)),
+                            getPhoneNumber(content_c.getString(0)),
+                            getEmailAddress(content_c.getString(0)),
+                            "COMP","DEP","POS"
+                    ));
+                    Log.d("DB: ", getOrganization(content_c.getString(0)));
+                } while (content_c.moveToNext());
             } catch (Exception e){
                 e.printStackTrace();
             } finally{

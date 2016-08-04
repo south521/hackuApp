@@ -1,6 +1,8 @@
 package com.example.admin.hackuapp;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * 非同期通信でPOSTリクエストをする
  *
  */
-public class Api{
+public class Api extends AppCompatActivity {
     private Activity ac;
     private String url;
     private List<String> id= new ArrayList<String>();
@@ -25,6 +27,7 @@ public class Api{
     private String fileName=null;
     private boolean post=false;
     public List<String> result=new ArrayList<String>();
+    private Intent intent;
     
     Api(Activity ac){
         this.ac=ac;
@@ -39,6 +42,8 @@ public class Api{
         }
         Log.d("test",String.valueOf(this.id.size()));
     }
+
+
     public void setSubkey(String subkey){
         this.subkey=subkey;
     }
@@ -123,6 +128,11 @@ public class Api{
                         try{
                             pr=r.getString("identificationProfileId");
                             result.add(pr);
+
+                            //intent.setClassName("com.example.admin.hackuapp", "com.example.admin.hackuapp.EditCard");
+                            //intent.putExtra("profileId", result.get(0));
+                            //startActivity(intent);
+
                             System.out.println(pr);
                         }catch(Exception e){
                             System.out.println("error "+e.toString());
@@ -153,6 +163,7 @@ public class Api{
     public void enroll(String url) {
         // 非同期タスクを定義
         this.url=url;
+        Log.d("enroll","miss");
         Log.d("connection",url);
         HttpPostTask task = request();
         task.addPostHeader("Ocp-Apim-Subscription-Key",this.subkey);
@@ -178,6 +189,12 @@ public class Api{
         // タスクを開始
         task.execute();
         System.out.println("task start");
+        try{
+            task.get(1500, TimeUnit.MILLISECONDS);
+        }catch(Exception e){
+
+        }
+
     }
 
     public void identification(){
