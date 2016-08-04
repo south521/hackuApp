@@ -174,7 +174,9 @@ public class BusinessCardsListActivity extends AppCompatActivity {
 //                    }
 //                }
 
+                
                 do {
+
                     pbContent.addItem(new PhoneBookContent.PhoneBookItem(
                             content_c.getString(0),
                             getDisplayName(content_c.getString(0)),

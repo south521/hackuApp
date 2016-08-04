@@ -121,10 +121,10 @@ public class HttpPostTask extends AsyncTask<Void, Void, Void> {
                                 response.getEntity(),
                                 HttpPostTask.this.response_encoding
                         );
-                        if(http_ret_msg==null){
+                        if( HttpPostTask.this.http_ret_msg==null){
                             System.out.println("miss?");
                         }
-                        break;
+                    break;
                     case HttpStatus.SC_ACCEPTED:
                         Log.d("posttest","202");
                         HttpPostTask.this.http_ret_msg = EntityUtils.toString(
@@ -132,6 +132,9 @@ public class HttpPostTask extends AsyncTask<Void, Void, Void> {
                                 HttpPostTask.this.response_encoding
                         );
                         HttpPostTask.this.http_ret_msg =(response.getHeaders("Operation-Location")[0].getValue());
+                        if( HttpPostTask.this.http_ret_msg==null){
+                            System.out.println("miss?2");
+                        }
                         try{
                             result=(response.getHeaders("Operation-Location")[0].getValue());
                         }catch(Exception e){
@@ -237,6 +240,8 @@ public class HttpPostTask extends AsyncTask<Void, Void, Void> {
         }catch(Exception e){
 
         }
+        post_url="https://api.projectoxford.ai/spid/v1.0/identificationProfiles/"+http_ret_msg+"/enroll";
+        postRequest();
 
 
 

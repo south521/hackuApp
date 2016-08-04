@@ -2,6 +2,7 @@ package com.example.admin.hackuapp;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
+import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -27,13 +28,31 @@ public class EditCard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_card);
 
-        editName = (EditText) findViewById(R.id.editName);
-        editPhone = (EditText) findViewById(R.id.editPhone);
-        editEmail = (EditText) findViewById(R.id.editEmail);
-        editCompany = (EditText) findViewById(R.id.editCompany);
-        editDepart = (EditText) findViewById(R.id.editDepart);
+        //値の受け取り
+        Intent intent = getIntent();
+        String oldName = intent.getStringExtra( "oldName" );
+        String oldPhone = intent.getStringExtra( "oldPhone" );
+        String oldEmail = intent.getStringExtra( "oldEmail" );
+        String oldComp = intent.getStringExtra( "oldComp" );
+        String oldDep = intent.getStringExtra( "oldDep" );
+        String oldPos = intent.getStringExtra( "oldPos" );
 
-        dba = new DBAccesser(this);
+        String profileId = intent.getStringExtra( "profileId" );
+
+        EditText input = (EditText)this.findViewById(R.id.editName);
+        input.setText(oldName);
+        input = (EditText)this.findViewById(R.id.editPhone);
+        input.setText(oldPhone);
+        input = (EditText)this.findViewById(R.id.editEmail);
+        input.setText(oldEmail);
+        input = (EditText)this.findViewById(R.id.editCompany);
+        input.setText(oldComp);
+        input = (EditText)this.findViewById(R.id.editDepart);
+        input.setText(oldDep);
+        input = (EditText)this.findViewById(R.id.editPosit);
+        input.setText(oldPos);
+
+        System.out.println("PROFILEID: "+profileId);
     }
 
     private Uri bookRegistration() throws AndroidException, OperationApplicationException {

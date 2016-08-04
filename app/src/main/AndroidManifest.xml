@@ -39,6 +39,7 @@
         <activity android:name=".Registation" />
         <activity android:name=".Recording" />
         <activity android:name=".EditCard"></activity>
+        <activity android:name=".Api"></activity>
     </application>
 
 </manifest>

@@ -29,22 +29,26 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="新規登録"
+        android:text="声の登録"
         android:id="@+id/new_button"
+        android:layout_marginTop="39dp"
         android:layout_below="@+id/rec_switch"
-        android:layout_centerHorizontal="true"
-        android:layout_alignLeft="@+id/rec_switch"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="30dp" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="声を識別"
         android:id="@+id/check_button"
-        android:layout_centerHorizontal="true"
         android:layout_alignTop="@+id/new_button"
-        android:layout_toRightOf="@+id/rec_switch" />
+        android:layout_toEndOf="@+id/imageView" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="新規作成"
+        android:id="@+id/newCard_button"
+        android:layout_alignTop="@+id/new_button"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
