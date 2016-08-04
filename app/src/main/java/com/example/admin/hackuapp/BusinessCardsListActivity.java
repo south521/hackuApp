@@ -1,15 +1,23 @@
 package com.example.admin.hackuapp;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +47,7 @@ public class BusinessCardsListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
     public static final int NEW_ITEM = 0;
+    private PhoneBookContent pbContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +56,22 @@ public class BusinessCardsListActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
-
+        if (toolbar != null) {
+            toolbar.setTitle(getTitle());
+        }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClassName("com.example.admin.hackuapp", "com.example.admin.hackuapp.Recording");
-                startActivity(intent);
-            }
-        });
+        if (fab != null) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.setClassName("com.example.admin.hackuapp", "com.example.admin.hackuapp.Recording");
+                    startActivity(intent);
+                }
+            });
+        }
+
+        requestDBPermission();
 
         View recyclerView = findViewById(R.id.businesscards_list);
         assert recyclerView != null;
@@ -94,17 +108,180 @@ public class BusinessCardsListActivity extends AppCompatActivity {
     }
     */
 
+    private void requestDBPermission(){
+        // Here, thisActivity is the current activity
+        int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_CONTACTS)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CONTACTS},
+                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+    }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+
+        pbContent = new PhoneBookContent();
+        Cursor content_c = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, new String[]{
+                ContactsContract.Contacts._ID,
+                ContactsContract.Contacts.DISPLAY_NAME,}, null, null,null);
+
+
+        if (content_c != null && content_c.getCount() > 0){
+            try {
+                content_c.moveToFirst();
+
+                Uri lookupUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, content_c.getString(1));
+
+
+                do {
+                    pbContent.addItem(new PhoneBookContent.PhoneBookItem(
+                            content_c.getString(0),
+                            content_c.getString(1),
+                            getPhoneNumber(content_c.getString(0)),
+                            getEmailAddress(content_c.getString(0)),
+//                            c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY)) + " " +
+//                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DEPARTMENT)) + " " +
+//                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY))
+                            ""
+                    ));
+//                    Log.d("DB: ", getOrganization(content_c.getString(0)));
+                } while (content_c.moveToNext());
+            } catch (Exception e){
+                e.printStackTrace();
+            } finally{
+                content_c.close();
+            }
+        }
+
+
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(pbContent.getItems()));
+    }
+
+    private String getDisplayName(String id){
+        String name = "";
+        Cursor c = getContentResolver().query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + id,
+                null,
+                null
+        );
+        if(c != null && c.getCount() > 0){
+            try {
+                c.moveToFirst();
+
+                name = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)) + " ";
+
+            } catch (Exception e){
+                e.printStackTrace();
+            } finally {
+                c.close();
+            }
+            c.close();
+        }
+
+    private String getPhoneNumber(String id){
+        String phones = "";
+        Cursor c = getContentResolver().query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + id,
+                null,
+                null
+        );
+        if(c != null && c.getCount() > 0){
+            try {
+                c.moveToFirst();
+                do {
+                    phones += c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)) + " ";
+                } while (c.moveToNext());
+            } catch (Exception e){
+                e.printStackTrace();
+            } finally {
+                c.close();
+            }
+            c.close();
+        }
+
+        return phones;
+    }
+
+    private String getEmailAddress(String id){
+        String addresses = "";
+        Cursor c = getContentResolver().query(
+                ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                new String[]{ContactsContract.CommonDataKinds.Email.ADDRESS},
+                ContactsContract.CommonDataKinds.Email.CONTACT_ID + "=" + id,
+                null,
+                null
+        );
+        if (c != null && c.getCount() > 0) {
+            try {
+                c.moveToFirst();
+                do {
+                    addresses += c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS)) + " ";
+                } while (c.moveToNext());
+            }catch(Exception e){
+                e.printStackTrace();
+            }finally{
+                c.close();
+            }
+        }
+        return addresses;
+    }
+
+    private String getOrganization(String id){
+        String org = "";
+        Cursor c = getContentResolver().query(
+                ContactsContract.Data.CONTENT_URI,
+                null,
+                ContactsContract.Data.RAW_CONTACT_ID + " = " + id + " AND " +
+                ContactsContract.Data.MIMETYPE + " = " + ContactsContract.CommonDataKinds.Organization.MIMETYPE,
+                //ContactsContract.Data.RAW_CONTACT_ID + "=" + id,
+                new String[] {id, ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE},
+                null
+        );
+        if(c != null && c.getCount() > 0){
+            try {
+                c.moveToFirst();
+                org = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DEPARTMENT));
+            }catch(Exception e){
+                e.printStackTrace();
+            }finally {
+                c.close();
+            }
+        }
+
+        return org;
     }
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<DummyContent.DummyItem> mValues;
+        private final List<PhoneBookContent.PhoneBookItem> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
+        public SimpleItemRecyclerViewAdapter(List<PhoneBookContent.PhoneBookItem> items) {
             mValues = items;
         }
 
@@ -152,7 +329,7 @@ public class BusinessCardsListActivity extends AppCompatActivity {
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            public PhoneBookContent.PhoneBookItem mItem;
 
             public ViewHolder(View view) {
                 super(view);
