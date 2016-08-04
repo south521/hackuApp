@@ -98,6 +98,17 @@ public class Recording extends AppCompatActivity {
                     api.setSubkey("705b6408172b465ebe0579742f062214");
                     api.setFileName("rec.wav");
                     api.identification();
+
+                    try {
+                        Thread.sleep(300);
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    String resultId = api.result.get(0);
+
+                    Intent cardDetail = new Intent();
+                    cardDetail.putExtra(BusinessCardsDetailFragment.ARG_ITEM_ID, dba.getByMs_profile_id(resultId).BOOK_ID);
+                    startActivity(cardDetail);
                 }else{
                     Toast.makeText(Recording.this, "DataBase is empty", Toast.LENGTH_SHORT).show();
                 }
@@ -105,4 +116,5 @@ public class Recording extends AppCompatActivity {
         });
 
     }
+
 }
