@@ -156,41 +156,38 @@ public class BusinessCardsListActivity extends AppCompatActivity {
             try {
                 content_c.moveToFirst();
 
-                Uri lookupUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, content_c.getString(1));
 
-
-
-                DBLine[] dbLines = dba.getAll();
-                if(dbLines != null) {
-                    for(DBLine row : dba.getAll()) {
-                        pbContent.addItem(new PhoneBookContent.PhoneBookItem(
-                                row.BOOK_ID,
-                                getDisplayName(row.BOOK_ID),
-                                getPhoneNumber(row.BOOK_ID),
-                                getEmailAddress(row.BOOK_ID),
-                                "COMP",
-                                "DEP",
-                                "POS"
-//                                getOrganization
-
-                        ));
-                    }
-                }
-
-//                do {
+//                DBLine[] dbLines = dba.getAll();
+//                if(dbLines != null) {
+//                    for(DBLine row : dba.getAll()) {
+//                        pbContent.addItem(new PhoneBookContent.PhoneBookItem(
+//                                row.BOOK_ID,
+//                                getDisplayName(row.BOOK_ID),
+//                                getPhoneNumber(row.BOOK_ID),
+//                                getEmailAddress(row.BOOK_ID),
+//                                "COMP",
+//                                "DEP",
+//                                "POS"
+////                                getOrganization
 //
-//                    pbContent.addItem(new PhoneBookContent.PhoneBookItem(
-//                            content_c.getString(0),
-//                            getDisplayName(content_c.getString(0)),
-//                            getPhoneNumber(content_c.getString(0)),
-//                            getEmailAddress(content_c.getString(0)),
-////                            c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY)) + " " +
-////                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DEPARTMENT)) + " " +
-////                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY))
-//                            ""
-//                    ));
-////                    Log.d("DB: ", getOrganization(content_c.getString(0)));
-//                } while (content_c.moveToNext());
+//                        ));
+//                    }
+//                }
+
+                do {
+                    pbContent.addItem(new PhoneBookContent.PhoneBookItem(
+                            content_c.getString(0),
+                            getDisplayName(content_c.getString(0)),
+                            getPhoneNumber(content_c.getString(0)),
+                            getEmailAddress(content_c.getString(0)),
+//                            c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY)) + " " +
+//                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DEPARTMENT)) + " " +
+//                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY))
+                            getCompany(content_c.getString(0)),
+                            getDepart(content_c.getString(0)),
+                            getPosit(content_c.getString(0))
+                    ));
+                } while (content_c.moveToNext());
             } catch (Exception e){
                 e.printStackTrace();
             } finally{
@@ -278,30 +275,55 @@ public class BusinessCardsListActivity extends AppCompatActivity {
         return addresses;
     }
 
-    private String getOrganization(String id){
-        String org = "";
-        Cursor c = getContentResolver().query(
-                ContactsContract.Data.CONTENT_URI,
-                null,
-                ContactsContract.Data.RAW_CONTACT_ID + " = " + id + " AND " +
-                ContactsContract.Data.MIMETYPE + " = " + ContactsContract.CommonDataKinds.Organization.MIMETYPE,
-                //ContactsContract.Data.RAW_CONTACT_ID + "=" + id,
-                new String[] {id, ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE},
-                null
-        );
-        if(c != null && c.getCount() > 0){
-            try {
-                c.moveToFirst();
-                org = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY));
-            }catch(Exception e){
-                e.printStackTrace();
-            }finally {
-                c.close();
-            }
+    private String getCompany(String id){
+        String result = null;
+
+        String orgWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
+        String[] orgWhereParams = new String[]{id,
+                ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE};
+        Cursor orgCur = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
+                null, orgWhere, orgWhereParams, null);
+        if(orgCur.moveToFirst()) {
+            result = orgCur.getString(orgCur.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DATA));
+            orgCur.close();
         }
 
-        return org;
+        return result;
     }
+
+    private String getDepart(String id){
+        String result = null;
+
+        String orgWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
+        String[] orgWhereParams = new String[]{id,
+                ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE};
+        Cursor orgCur = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
+                null, orgWhere, orgWhereParams, null);
+        if(orgCur.moveToFirst()) {
+            result = orgCur.getString(orgCur.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DEPARTMENT));
+            orgCur.close();
+        }
+
+        return result;
+    }
+
+    private String getPosit(String id){
+        String result = null;
+
+        String orgWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
+        String[] orgWhereParams = new String[]{id,
+                ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE};
+        Cursor orgCur = getContentResolver().query(ContactsContract.Data.CONTENT_URI,
+                null, orgWhere, orgWhereParams, null);
+        if(orgCur.moveToFirst()) {
+            result = orgCur.getString(orgCur.getColumnIndex(ContactsContract.CommonDataKinds.Organization.TITLE));
+            orgCur.close();
+        }
+
+        return result;
+    }
+
+
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
