@@ -63,6 +63,7 @@ public class PhoneBookContent {
             this.company = company;
             this.phoneNumber = phoneNumber;
             this.email = email;
+            this.posit = posit;
         }
 
         @Override

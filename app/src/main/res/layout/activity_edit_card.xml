@@ -133,6 +133,7 @@
             <Button
                 android:text="登録"
                 android:id="@+id/new_button"
+                android:onClick="bookRegistration"
                 android:layout_marginTop="20dp"
                 android:layout_column="2" />
 
@@ -141,6 +142,7 @@
                 android:layout_height="wrap_content"
                 android:text="インポート"
                 android:id="@+id/import_button"
+                android:onClick="pickContact"
                 android:layout_marginTop="20dp"
                 android:layout_column="4" />
 
