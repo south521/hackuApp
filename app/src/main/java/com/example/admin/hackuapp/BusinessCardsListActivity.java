@@ -168,8 +168,11 @@ public class BusinessCardsListActivity extends AppCompatActivity {
                                 getDisplayName(row.BOOK_ID),
                                 getPhoneNumber(row.BOOK_ID),
                                 getEmailAddress(row.BOOK_ID),
+                                "COMP",
+                                "DEP",
+                                "POS"
 //                                getOrganization
-                                ""
+
                         ));
                     }
                 }
@@ -320,7 +323,7 @@ public class BusinessCardsListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(mValues.get(position).name);
-            holder.mContentView.setText(mValues.get(position).belongs);
+            holder.mContentView.setText(mValues.get(position).company);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

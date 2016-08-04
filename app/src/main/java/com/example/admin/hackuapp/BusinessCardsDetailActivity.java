@@ -29,8 +29,9 @@ public class BusinessCardsDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent();
+                intent.setClassName("com.example.admin.hackuapp", "com.example.admin.hackuapp.EditCard");
+                startActivity(intent);
             }
         });
 
