@@ -165,7 +165,7 @@ public class BusinessCardsListActivity extends AppCompatActivity {
 //                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY))
                             ""
                     ));
-                    Log.d("DB: ", getOrganization(content_c.getString(0)));
+//                    Log.d("DB: ", getOrganization(content_c.getString(0)));
                 } while (content_c.moveToNext());
             } catch (Exception e){
                 e.printStackTrace();
@@ -177,6 +177,29 @@ public class BusinessCardsListActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(pbContent.getItems()));
     }
+
+    private String getDisplayName(String id){
+        String name = "";
+        Cursor c = getContentResolver().query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + id,
+                null,
+                null
+        );
+        if(c != null && c.getCount() > 0){
+            try {
+                c.moveToFirst();
+
+                name = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)) + " ";
+
+            } catch (Exception e){
+                e.printStackTrace();
+            } finally {
+                c.close();
+            }
+            c.close();
+        }
 
     private String getPhoneNumber(String id){
         String phones = "";
