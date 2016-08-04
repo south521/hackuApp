@@ -30,8 +30,6 @@ public class DummyContent {
         for (int i = 1; i <= COUNT; i++) {
             addItem(new DummyItem(String.valueOf(i), "Shun Higuchi"+i,"090-1110-0011", "hshun@gmail.com","Hosei Univ"));
         }
-
-
     }
 
 
@@ -62,16 +60,16 @@ public class DummyContent {
     public static class DummyItem {
         public  String id;
         public  String name;
+        public  String email;
         public  String phoneNumber;
         public  String belongs;
-        public  String email;
 
         public DummyItem(String id, String name, String phoneNumber, String email, String belongs) {
             this.id = id;
             this.name = name;
+            this.email = email;
             this.belongs = belongs;
             this.phoneNumber = phoneNumber;
-            this.email = email;
         }
 
         @Override
