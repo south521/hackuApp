@@ -142,6 +142,7 @@ public class BusinessCardsListActivity extends AppCompatActivity {
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
 
         pbContent = new PhoneBookContent();
+
         Cursor content_c = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, new String[]{
                 ContactsContract.Contacts._ID,
                 ContactsContract.Contacts.DISPLAY_NAME,}, null, null,null);

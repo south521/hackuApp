@@ -14,12 +14,15 @@ import java.util.Map;
  * Created by admin on 2016/08/04.
  */
 public class PhoneBookContent {
-    public static final List<PhoneBookItem> ITEMS = new ArrayList<PhoneBookItem>();
+    public static List<PhoneBookItem> ITEMS ;
 
-    public static final Map<String, PhoneBookItem> ITEM_MAP = new HashMap<String, PhoneBookItem>();
+    public static Map<String, PhoneBookItem> ITEM_MAP;
 
 
     public PhoneBookContent(){
+        ITEMS = new ArrayList<PhoneBookItem>();
+        ITEM_MAP = new HashMap<String, PhoneBookItem>();
+        reset();
     }
 
 
@@ -28,6 +31,7 @@ public class PhoneBookContent {
         return ITEMS;
     }
 
+
     public Map<String, PhoneBookItem> ITEM_MAP(){
         return ITEM_MAP;
     }
@@ -35,6 +39,11 @@ public class PhoneBookContent {
     public static void addItem(PhoneBookItem item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
+    }
+
+    public static void reset(){
+        ITEMS.clear();
+        ITEM_MAP.clear();
     }
 
     public static class PhoneBookItem{
