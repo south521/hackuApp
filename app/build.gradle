@@ -29,23 +29,22 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
-
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     //    compile 'org.apache.httpcomponents:httpcore:4.4.1'
     //    compile 'org.apache.httpcomponents:httpclient:4.5'
     //    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     //    compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
-    compile files('D:/HackU/libs/commons-codec-1.9.jar')
-    compile files('D:/HackU/libs/httpclient-4.5.2.jar')
-    compile files('D:/HackU/libs/httpclient-cache-4.5.2.jar')
-    compile files('D:/HackU/libs/httpcore-4.4.4.jar')
-    compile files('D:/HackU/libs/httpmime-4.5.2.jar')
-    compile files('D:/HackU/libs/commons-logging-1.2.jar')
-    compile files('D:/HackU/libs/httpclient-win-4.5.2.jar')
+    compile files('lib/commons-codec-1.9.jar')
+    compile files('lib/commons-logging-1.2.jar')
+    compile files('lib/httpclient-4.5.2.jar')
+    compile files('lib/httpclient-cache-4.5.2.jar')
+    compile files('lib/httpclient-win-4.5.2.jar')
+    compile files('lib/httpcore-4.4.4.jar')
+    compile files('lib/httpmime-4.5.2.jar')
 }
