@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,24 +96,19 @@ public class Api extends AppCompatActivity {
                     public void onIdentCompleted(String response) {
                         // 受信結果をUIに表示
                         JSONObject r=getJSON(response);
-                        List<String>result=new ArrayList<String>();
+                        Log.d("test","tets");
                         try{
                             System.out.println(r.get("processingResult"));
                             Object pr=r.get("processingResult");
                             if(pr instanceof JSONObject){
                                 result.add(((JSONObject)pr).getString("identifiedProfileId"));
                             }
-                            else{
-                                JSONArray ja=(JSONArray)pr;
-                                for(int i=0;i<ja.length();i++){
-                                    result.add(((JSONObject)ja.get(i)).getString("identifiedProfileId"));
-                                }
-                            }
                             System.out.println(result.toString());
                         }catch(Exception e){
                             System.out.println("error "+e.toString());
                             
                         }
+
                         String str="";
                         for(int i=0;i<result.size();i++){
                             str+=result.get(i)+"\n";
@@ -197,7 +193,7 @@ public class Api extends AppCompatActivity {
 
     }
 
-    public void identification(){
+    public void identification()throws Exception{
         
         List confidence=new ArrayList();
         String result;
@@ -208,7 +204,6 @@ public class Api extends AppCompatActivity {
             task.setPost("identification");
             task.setfileName(fileName);
             task.execute();
-            
         }
         
         
