@@ -49,6 +49,8 @@ public class BusinessCardsListActivity extends AppCompatActivity {
     public static final int NEW_ITEM = 0;
     private PhoneBookContent pbContent;
 
+    private DBAccesser dba;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +74,8 @@ public class BusinessCardsListActivity extends AppCompatActivity {
         }
 
         requestDBPermission();
+
+        dba = new DBAccesser(this);
 
         View recyclerView = findViewById(R.id.businesscards_list);
         assert recyclerView != null;
@@ -155,17 +159,38 @@ public class BusinessCardsListActivity extends AppCompatActivity {
                 Uri lookupUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, content_c.getString(1));
 
 
-                do {
-                    pbContent.addItem(new PhoneBookContent.PhoneBookItem(
-                            content_c.getString(0),
-                            content_c.getString(1),
-                            getPhoneNumber(content_c.getString(0)),
-                            getEmailAddress(content_c.getString(0)),
-                            "COMP","DEP","POS"
-                    ));
-//                    Log.d("DB: ", getOrganization(content_c.getString(0)));
-                } while (content_c.moveToNext());
 
+                DBLine[] dbLines = dba.getAll();
+                if(dbLines != null) {
+                    for(DBLine row : dba.getAll()) {
+                        pbContent.addItem(new PhoneBookContent.PhoneBookItem(
+                                row.BOOK_ID,
+                                getDisplayName(row.BOOK_ID),
+                                getPhoneNumber(row.BOOK_ID),
+                                getEmailAddress(row.BOOK_ID),
+                                "COMP",
+                                "DEP",
+                                "POS"
+//                                getOrganization
+
+                        ));
+                    }
+                }
+
+//                do {
+//
+//                    pbContent.addItem(new PhoneBookContent.PhoneBookItem(
+//                            content_c.getString(0),
+//                            getDisplayName(content_c.getString(0)),
+//                            getPhoneNumber(content_c.getString(0)),
+//                            getEmailAddress(content_c.getString(0)),
+////                            c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY)) + " " +
+////                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DEPARTMENT)) + " " +
+////                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY))
+//                            ""
+//                    ));
+////                    Log.d("DB: ", getOrganization(content_c.getString(0)));
+//                } while (content_c.moveToNext());
             } catch (Exception e){
                 e.printStackTrace();
             } finally{
@@ -177,6 +202,31 @@ public class BusinessCardsListActivity extends AppCompatActivity {
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(pbContent.getItems()));
     }
 
+    private String getDisplayName(String id){
+        String name = "";
+        Cursor c = getContentResolver().query(
+                ContactsContract.Contacts.CONTENT_URI,
+                new String[]{ContactsContract.Contacts.DISPLAY_NAME},
+                ContactsContract.Contacts._ID + "=" + id,
+                null,
+                null
+        );
+        if(c != null && c.getCount() > 0){
+            try {
+                c.moveToFirst();
+                do {
+                    name += c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)) + " ";
+                } while (c.moveToNext());
+            } catch (Exception e){
+                e.printStackTrace();
+            } finally {
+                c.close();
+            }
+            c.close();
+        }
+
+        return name;
+    }
 
     private String getPhoneNumber(String id){
         String phones = "";
@@ -242,7 +292,7 @@ public class BusinessCardsListActivity extends AppCompatActivity {
         if(c != null && c.getCount() > 0){
             try {
                 c.moveToFirst();
-                org = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DEPARTMENT));
+                org = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY));
             }catch(Exception e){
                 e.printStackTrace();
             }finally {
