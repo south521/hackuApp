@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 public class Recording extends AppCompatActivity {
 
+    WavRec wr=new WavRec();
+    Api api=new Api(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +21,13 @@ public class Recording extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // 状態が変更された isChecked
                 Toast.makeText(Recording.this, "isChecked : " + isChecked, Toast.LENGTH_SHORT).show();
+                if(isChecked){
+                    wr=new WavRec();
+                    wr.rec_start();
+                }else{
+                    wr.rec_stop();
+                    wr.convert();
+                }
             }
         });
 
@@ -26,12 +35,23 @@ public class Recording extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // クリック時の処理
+                wr.convert();
+                api.setSubkey("705b6408172b465ebe0579742f062214");
+                api.setFileName("rec.wav");
+                api.newaccount();
+//                api.enroll("https://api.projectoxford.ai/spid/v1.0/identificationProfiles/"+api.result.get(0)+"/enroll");
             }
         });
         findViewById(R.id.check_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // クリック時の処理
+                api.setUrl("https://api.projectoxford.ai/spid/v1.0/identify");
+                api.setId(new String[]{ "9f5eb3d8-f0d9-40cf-83b6-e4f4870ca1a9","c9d4d5e5-708c-4f3c-9ddd-6c67b4b6a6cd","c9aad336-f824-49a3-be4e-c0aa5efa709d"});
+                api.setSubkey("705b6408172b465ebe0579742f062214");
+                api.setFileName("rec.wav");
+                api.identification();
+
             }
         });
 
