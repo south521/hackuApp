@@ -363,6 +363,7 @@ public class BusinessCardsListActivity extends AppCompatActivity {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, BusinessCardsDetailActivity.class);
                         intent.putExtra(BusinessCardsDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        System.out.print(BusinessCardsDetailFragment.ARG_ITEM_ID + " " + holder.mItem.id);
 
                         context.startActivity(intent);
                     }
