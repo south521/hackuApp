@@ -90,6 +90,11 @@ public class EditCard extends AppCompatActivity {
 
         dba.put(new DBLine(profileId, ID, ""));
 
+        System.out.println("INTENT_TO_LIST");
+        Intent intent = new Intent();
+        intent.setClassName("com.example.admin.hackuapp", "com.example.admin.hackuapp.BusinessCardsListActivity");
+        startActivity(intent);
+
     }
 
     private String addContact() throws AndroidException, OperationApplicationException {
