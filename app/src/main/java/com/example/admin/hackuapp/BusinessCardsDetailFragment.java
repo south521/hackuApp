@@ -63,8 +63,16 @@ public class BusinessCardsDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            if(mItem.belongs != null) {
-                text += "所属: "+ mItem.belongs+"\n\n";
+            if(mItem.company != null) {
+                text += "会社名: "+ mItem.company+"\n\n";
+
+            }
+            if(mItem.company != null) {
+                text += "部署: "+ mItem.depart+"\n\n";
+
+            }
+            if(mItem.company != null) {
+                text += "役職: "+ mItem.posit+"\n\n";
 
             }
             if(mItem.phoneNumber != null) {

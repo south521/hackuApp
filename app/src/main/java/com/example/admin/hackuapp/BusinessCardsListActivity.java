@@ -161,13 +161,11 @@ public class BusinessCardsListActivity extends AppCompatActivity {
                             content_c.getString(1),
                             getPhoneNumber(content_c.getString(0)),
                             getEmailAddress(content_c.getString(0)),
-//                            c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY)) + " " +
-//                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DEPARTMENT)) + " " +
-//                                    c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY))
-                            ""
+                            "COMP","DEP","POS"
                     ));
 //                    Log.d("DB: ", getOrganization(content_c.getString(0)));
                 } while (content_c.moveToNext());
+
             } catch (Exception e){
                 e.printStackTrace();
             } finally{
@@ -275,7 +273,7 @@ public class BusinessCardsListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mIdView.setText(mValues.get(position).name);
-            holder.mContentView.setText(mValues.get(position).belongs);
+            holder.mContentView.setText(mValues.get(position).company);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

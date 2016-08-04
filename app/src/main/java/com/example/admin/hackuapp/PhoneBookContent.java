@@ -50,13 +50,17 @@ public class PhoneBookContent {
         public  String id;
         public  String name;
         public  String phoneNumber;
-        public  String belongs;
+        public  String company;
+        public  String depart;
+        public  String posit;
         public  String email;
 
-        public PhoneBookItem(String id, String name, String phoneNumber, String email, String belongs) {
+        public PhoneBookItem(String id, String name, String phoneNumber, String email, String company, String depart, String posit) {
             this.id = id;
             this.name = name;
-            this.belongs = belongs;
+            this.company = company;
+            this.depart = depart;
+            this.company = company;
             this.phoneNumber = phoneNumber;
             this.email = email;
         }
