@@ -82,7 +82,7 @@ public class Recording extends AppCompatActivity {
                     api.setFileName("rec.wav");
                     api.identification();
                 }else{
-                    Toast.makeText(Recording.this, "DB is empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Recording.this, "DataBase is empty", Toast.LENGTH_SHORT).show();
                 }
             }
         });
