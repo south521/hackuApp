@@ -85,7 +85,6 @@ public class EditCard extends AppCompatActivity {
     public void bookRegistration(View view) throws AndroidException, OperationApplicationException {
         if (ID.length() == 0) {
             ID = addContact();
-            System.out.print(ID);
         }
 
         dba.put(new DBLine(profileId, ID, ""));
@@ -150,7 +149,7 @@ public class EditCard extends AppCompatActivity {
         values.put(ContactsContract.CommonDataKinds.Organization.TITLE, ePosit.getText().toString());
         getContentResolver().insert(positUri, values);
 
-        return String.valueOf(rawContactId+1);
+        return String.valueOf(rawContactId);
     }
 
     private void requestDBPermission(){
