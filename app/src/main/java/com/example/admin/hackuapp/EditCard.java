@@ -85,7 +85,6 @@ public class EditCard extends AppCompatActivity {
     public void bookRegistration(View view) throws AndroidException, OperationApplicationException {
         if (ID.length() == 0) {
             ID = addContact();
-            System.out.print(ID);
         }
 
         dba.put(new DBLine(profileId, ID, ""));
