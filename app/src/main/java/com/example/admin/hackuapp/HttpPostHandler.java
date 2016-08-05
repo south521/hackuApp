@@ -23,6 +23,7 @@ public abstract class HttpPostHandler extends Handler {
         if( isPostSuccess )
         {
             String http_type=msg.getData().getString("http_type").toString();
+            Log.d("http_type",http_type);
             if(http_type.equals("identification")){
                 onIdentCompleted(http_response);
             }else if(http_type.equals("enroll")){

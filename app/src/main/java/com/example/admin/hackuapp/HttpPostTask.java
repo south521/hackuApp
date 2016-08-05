@@ -90,10 +90,17 @@ public class HttpPostTask extends AsyncTask<Void, Void, Void> {
     }
     public void setPost(String post){this.post=post;}
   /* --------------------- 処理本体 --------------------- */
-
+  private JSONObject getJSON(String text){
+      try {
+          JSONObject jsonObj = new JSONObject(text);
+          return jsonObj;
+      }catch(Exception e){
+          return null;
+      }
+  }
 
     // タスク開始時
-    protected void onPreExecute() {
+    protected void onPreExecute(){
         // ダイアログを表示
         dialog = new ProgressDialog( parent_activity );
         dialog.setMessage("通信中・・・");
@@ -121,6 +128,8 @@ public class HttpPostTask extends AsyncTask<Void, Void, Void> {
                                 response.getEntity(),
                                 HttpPostTask.this.response_encoding
                         );
+                        Log.d("test",HttpPostTask.this.http_ret_msg);
+
                         if( HttpPostTask.this.http_ret_msg==null){
                             System.out.println("miss?");
                         }
@@ -207,6 +216,7 @@ public class HttpPostTask extends AsyncTask<Void, Void, Void> {
             result=http_ret_msg;
             post_url=result;
             Thread.sleep(2000);
+            Log.d("newurl",post_url);
             getRequest();
         }catch(Exception e){
             
@@ -283,7 +293,7 @@ public class HttpPostTask extends AsyncTask<Void, Void, Void> {
         message.setData(bundle);
         // 受信結果に基づいてUI操作させる
         ui_handler.sendMessage(message);
-        
+
     }
 
 }

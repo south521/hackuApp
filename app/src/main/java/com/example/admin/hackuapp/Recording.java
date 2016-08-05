@@ -97,21 +97,36 @@ public class Recording extends AppCompatActivity {
                     //                api.setId(new String[]{ "9f5eb3d8-f0d9-40cf-83b6-e4f4870ca1a9","c9d4d5e5-708c-4f3c-9ddd-6c67b4b6a6cd","c9aad336-f824-49a3-be4e-c0aa5efa709d"});
                     api.setSubkey("705b6408172b465ebe0579742f062214");
                     api.setFileName("rec.wav");
-                    api.identification();
+
 
                     try {
-                        Thread.sleep(300);
+                        api.identification();
+//                        Thread.sleep(10000);
                     } catch(Exception e){
                         e.printStackTrace();
+                        System.out.println("error miss");
                     }
-                    String resultId = api.result.get(0);
-
-                    Intent cardDetail = new Intent();
-                    cardDetail.putExtra(BusinessCardsDetailFragment.ARG_ITEM_ID, dba.getByMs_profile_id(resultId).BOOK_ID);
-                    startActivity(cardDetail);
+//                    String resultId = api.result.get(0);
+//
+//                    Intent cardDetail = new Intent();
+//                    cardDetail.putExtra(BusinessCardsDetailFragment.ARG_ITEM_ID, dba.getByMs_profile_id(resultId).BOOK_ID);
+//                    startActivity(cardDetail);
                 }else{
                     Toast.makeText(Recording.this, "DataBase is empty", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        findViewById(R.id.list_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // クリック時の処理
+                String resultId = api.result.get(0);
+                Intent cardDetail = new Intent();
+                cardDetail.setClassName("com.example.admin.hackuapp", "com.example.admin.hackuapp.BusinessCardsDetailActivity");
+                cardDetail.putExtra(BusinessCardsDetailFragment.ARG_ITEM_ID, dba.getByMs_profile_id(resultId).BOOK_ID);
+                startActivity(cardDetail);
+
             }
         });
 
